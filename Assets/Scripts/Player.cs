@@ -9,27 +9,35 @@ public class Player : MonoBehaviour
     [SerializeField] private float runSpeed = 5f;
     [SerializeField] private float climbingSpeed = 5f;
     [SerializeField] private float jumpSpeed = 8f;
+    [SerializeField] private Vector2 deathKick = new Vector2(0f, 25f);
+
+    private bool isAlive = true;
 
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
-    private Collider2D myCollider;
+    private CapsuleCollider2D myBodyCollider;
+    private BoxCollider2D myFeetColider;
 
     private float gravityScaleAtStart;
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
-        myCollider = GetComponent<Collider2D>();
-
+        myBodyCollider = GetComponent<CapsuleCollider2D>();
+        myFeetColider = GetComponent<BoxCollider2D>();
         gravityScaleAtStart = myRigidbody.gravityScale;
     }
 
     void Update()
     {
-        Run();
-        ClimbLadder();
-        Jump();
-        FlipSprite();
+        if (isAlive)
+        {
+            Run();
+            ClimbLadder();
+            Jump();
+            FlipSprite();
+            Die();
+        }
     }
 
     private void Run()
@@ -43,7 +51,7 @@ public class Player : MonoBehaviour
     }
     private void Jump()
     {
-        if (myCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+        if (myFeetColider.IsTouchingLayers(LayerMask.GetMask("Ground")))
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -54,7 +62,7 @@ public class Player : MonoBehaviour
     }
     private void ClimbLadder()
     {
-        if (myCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        if (myFeetColider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
             myRigidbody.gravityScale = 0f;
             float controlThrow = CrossPlatformInputManager.GetAxis("Vertical");
@@ -75,6 +83,16 @@ public class Player : MonoBehaviour
         if (playerHasHorizontalSpeed)
         {
             this.transform.localScale = new Vector2(Mathf.Sign(myRigidbody.velocity.x), 1f);
+        }
+    }
+
+    private void Die()
+    {
+        if(myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
+        {
+            isAlive = false;
+            myAnimator.SetTrigger("Dying");
+            GetComponent<Rigidbody2D>().velocity = deathKick;
         }
     }
 }

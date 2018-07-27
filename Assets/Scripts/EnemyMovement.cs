@@ -7,8 +7,8 @@ using UnityStandardAssets.CrossPlatformInput;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 1f;
-    Rigidbody2D enemyRigidbody;
-    BoxCollider2D enemyBoxCollider;
+    private Rigidbody2D enemyRigidbody;
+    private BoxCollider2D enemyBoxCollider;
 
     void Start()
     {

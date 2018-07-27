@@ -68,6 +68,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16d4dd73fe71e445ab2d0d1b9317df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 1289908784899900, guid: 859f07c014af9a342a8c6aad12054f40,
+    type: 2}
+  slider: {fileID: 114070790565223382, guid: 859f07c014af9a342a8c6aad12054f40, type: 2}
   LevelLoadDelay: 3
   LevelExitSlowMoFactor: 0.2
 --- !u!212 &212695711549091570

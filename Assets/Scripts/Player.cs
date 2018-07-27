@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -88,11 +89,15 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        if(myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            isAlive = false;
-            myAnimator.SetTrigger("Dying");
-            GetComponent<Rigidbody2D>().velocity = deathKick;
+            if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
+            {
+                isAlive = false;
+                myAnimator.SetTrigger("Dying");
+                GetComponent<Rigidbody2D>().velocity = deathKick;
+                FindObjectOfType<GameSession>().ProcessPlayerDeath();
+            }
         }
     }
 }

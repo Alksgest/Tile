@@ -19,7 +19,7 @@ TagManager:
   - BackGround
   - Enemy
   - Hazards
-  - 
+  - Interactables
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 1554757895
+    locked: 0
+  - name: Interactables
+    uniqueID: 338596355
     locked: 0
   - name: Climbing
     uniqueID: 579438855

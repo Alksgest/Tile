@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class ScenePersist : MonoBehaviour {
+public class ScenePersist : MonoBehaviour
+{
 
     private int startingSceneIndex;
-
+    private int currentSceneIndex;
     private void Awake()
     {
-        int numScenePersist = FindObjectsOfType<ScenePersist>().Length;
-        if (numScenePersist > 1)
+        startingSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("Awake! Starting scene index: " + startingSceneIndex);
+        var previousPresists = FindObjectsOfType<ScenePersist>();
+        if (previousPresists.Length > 1)
         {
-           Destroy(gameObject);
+            Debug.Log("Awake! Object on scene: " + SceneManager.GetActiveScene().buildIndex.ToString() + " is destroing");
+            Destroy(gameObject);
         }
         else
         {
@@ -22,14 +26,19 @@ public class ScenePersist : MonoBehaviour {
 
     private void Start()
     {
+
         startingSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("Start! Starting scene index: " + startingSceneIndex);
     }
     private void Update()
     {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (currentSceneIndex != startingSceneIndex || currentSceneIndex == 0)
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("Update! Current scene: " + startingSceneIndex + "\nStarting scene index: " + startingSceneIndex.ToString());
+        if (currentSceneIndex != startingSceneIndex)
         {
+            Debug.Log("Update! Object on scene: " + currentSceneIndex.ToString() + " is destroing");
             Destroy(gameObject);
         }
+
     }
 }
